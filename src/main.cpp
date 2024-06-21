@@ -25,15 +25,19 @@ DDMqtt clientMqtt(MQTT_DEVICE, MQTT_HOST, MQTT_PORT, MQTT_USER, MQTT_PWD, MQTT_T
 //DS18B20
 DDDS18B20 tempWater(LEDSTATUSPIN, DS18B20WATERPIN);
 DDDS18B20 tempAir(LEDSTATUSPIN, DS18B20AIRPIN);
+DDDS18B20Val tAir;
+DDDS18B20Val tWater;
 
 //ADS1115
 DDADS1115 analog(0);
 
 //PH4205c
 DDPH4205C ph(ADC_VOLTAGE);
+DDPH4205CVal phVal;
 
 //TDS
 DDTDS tds;
+DDTDSVal tdsValue;
 
 //JSON
 JsonDocument jsonConfig;
@@ -48,20 +52,38 @@ void createJsonConfig()
   jsonConfig["adcVoltage"] = ADC_VOLTAGE;
 }
 
-String generateJsonMessageConfig()
-{
-	String json;
-	serializeJson(jsonConfig, json);
-	return json;
-}
+// String generateJsonMessageConfig()
+// {
+// 	String json;
+// 	serializeJson(jsonConfig, json);
+// 	return json;
+// }
 
-String generateJsonMessage(DDDS18B20Val tAir, DDDS18B20Val tWater, float phValue, float tdsValue)
+String generateJsonMessage()
 {
+  JsonDocument airTempJson;
+  airTempJson["tempC"] = tAir.tempC;
+  airTempJson["tempF"] = tAir.tempF;
+  airTempJson["success"] = tAir.success;
+  airTempJson["errorMsg"] = tAir.errorMsg;
+  JsonDocument waterTempJson;
+  waterTempJson["tempC"] = tWater.tempC;
+  waterTempJson["tempF"] = tWater.tempF;
+  waterTempJson["success"] = tWater.success;
+  waterTempJson["errorMsg"] = tWater.errorMsg;
+  JsonDocument phJson;
+  phJson["ph"] = phVal.ph;
+  phJson["voltage"] = phVal.voltage;
+  JsonDocument tdsJson;
+  tdsJson["value"] = tdsValue.value;
+  tdsJson["voltage"] = tdsValue.voltage;
   JsonDocument json;
-	json["airTemp"] = tAir.tempC;
-	json["waterTemp"] = tWater.tempC;
-  json["ph"] = phValue;
-  json["tds"] = tdsValue;
+	json["airTemp"] = airTempJson;
+	json["waterTemp"] = waterTempJson;
+  json["ph"] = phJson;
+  json["tds"] = tdsJson;
+  json["config"] = jsonConfig;
+  json["info"] = jsonInfo;
 	String jsonString;
 	serializeJson(json, jsonString);
 	return jsonString;
@@ -89,7 +111,7 @@ void setup() {
 	jsonInfo["name"] = USER_SETTINGS_WIFI_HOSTNAME;
 	jsonInfo["version"] = AUTO_VERSION;
 	server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
-		request->send(200, "application/json", generateJsonMessageConfig());
+		request->send(200, "application/json", generateJsonMessage());
 	});
 	AsyncElegantOTA.begin(&server);
 	server.begin();
@@ -113,8 +135,8 @@ void loop() {
 
   //TEMPERATURE
   
-  DDDS18B20Val tAir = tempAir.getValue();
-  DDDS18B20Val tWater = tempWater.getValue();
+  tAir = tempAir.getValue();
+  tWater = tempWater.getValue();
   writeToSerial("T-air: ", false);
   if(tAir.success)
     writeToSerial(tAir.tempC, true);
@@ -127,11 +149,11 @@ void loop() {
     writeToSerial(tWater.errorMsg, true);
   //ANALOGS
   DDADS1115Val analogs = analog.getValues();
-  DDPH4205CVal phVal = ph.convertValue(analogs.volt1);
-  DDTDSVal tdsValue = tds.convertValue(analogs.volt4, tWater.tempC);
+  phVal = ph.convertValue(analogs.volt1);
+  tdsValue = tds.convertValue(analogs.volt4, tWater.tempC);
   writeToSerial("PH: ", false); writeToSerial(phVal.ph, false); writeToSerial(" ", false); writeToSerial(phVal.voltage, false); writeToSerial(" V", true);
   writeToSerial("TDS: ", false); writeToSerial(tdsValue.value, false); writeToSerial(" ", false); writeToSerial(tdsValue.voltage, true);
 
-  clientMqtt.sendMessage(MQTT_TOPIC, generateJsonMessage(tAir, tWater, phVal.ph, tdsValue.value));
+  clientMqtt.sendMessage(MQTT_TOPIC, generateJsonMessage());
 
 }
