@@ -1,0 +1,21 @@
+[submodule "lib/smarthome-fw-lib-esp8266-ddcommon"]
+	path = lib/smarthome-fw-lib-esp8266-ddcommon
+	url = https://github.com/domoticsduino/smarthome-fw-lib-esp8266-ddcommon
+[submodule "lib/smarthome-fw-lib-esp8266-ddwifi"]
+	path = lib/smarthome-fw-lib-esp8266-ddwifi
+	url = https://github.com/domoticsduino/smarthome-fw-lib-esp8266-ddwifi
+[submodule "lib/smarthome-fw-lib-esp8266-ddmqtt"]
+	path = lib/smarthome-fw-lib-esp8266-ddmqtt
+	url = https://github.com/domoticsduino/smarthome-fw-lib-esp8266-ddmqtt
+[submodule "lib/smarthome-fw-lib-esp8266-ddds18b20"]
+	path = lib/smarthome-fw-lib-esp8266-ddds18b20
+	url = https://github.com/domoticsduino/smarthome-fw-lib-esp8266-ddds18b20
+[submodule "lib/smarthome-fw-lib-esp8266-ddads1115"]
+	path = lib/smarthome-fw-lib-esp8266-ddads1115
+	url = https://github.com/domoticsduino/smarthome-fw-lib-esp8266-ddads1115
+[submodule "lib/smarthome-fw-lib-esp8266-ddtds"]
+	path = lib/smarthome-fw-lib-esp8266-ddtds
+	url = https://github.com/domoticsduino/smarthome-fw-lib-esp8266-ddtds
+[submodule "lib/smarthome-fw-lib-esp8266-ddph4205c"]
+	path = lib/smarthome-fw-lib-esp8266-ddph4205c
+	url = https://github.com/domoticsduino/smarthome-fw-lib-esp8266-ddph4205c

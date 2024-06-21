@@ -1,0 +1,41 @@
+/* 1.0.0 VERSION */
+
+#ifndef config_h
+#define config_h
+
+#define AUTO_VERSION "1.0.0"
+
+// USER SETTINGS
+#include "user-config.h"
+
+// GENERAL SETTINGS
+#define LEDSTATUSPIN 2
+#define SERIAL_BAUDRATE 9600
+#define READ_INTERVAL 5000
+
+// DS18B20 SETTINGS
+#define DS18B20WATERPIN 12 //D6
+#define DS18B20AIRPIN 13 //D7
+
+// ADS1115 SETTINGS
+// #define ADS1115PHPIN 0
+// #define ADS1115TDSPIN 1
+
+// PH
+#define ADC_VOLTAGE 5
+
+// WIFI SETTINGS (see user-config.h)
+const char *ssid = USER_SETTINGS_WIFI_SSID;
+const char *password = USER_SETTINGS_WIFI_PASSWORD;
+const char *wifihostname = USER_SETTINGS_WIFI_HOSTNAME;
+
+// MQTT SETTINGS (see user-config.h)
+const char MQTT_HOST[] = USER_SETTINGS_MQTT_HOST;
+int MQTT_PORT = USER_SETTINGS_MQTT_PORT;
+const char MQTT_TOPIC[] = USER_SETTINGS_MQTT_TOPIC;
+const char MQTT_DEVICE[] = USER_SETTINGS_MQTT_DEVICE;
+const char MQTT_USER[] = USER_SETTINGS_MQTT_USER;
+const char MQTT_PWD[] = USER_SETTINGS_MQTT_PWD;
+int MQTT_QOS = USER_SETTINGS_MQTT_QOS;
+
+#endif
