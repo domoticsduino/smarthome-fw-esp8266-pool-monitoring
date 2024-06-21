@@ -52,6 +52,24 @@ void createJsonConfig()
   jsonConfig["adcVoltage"] = ADC_VOLTAGE;
 }
 
+void createJsonInfo()
+{
+  JsonDocument wifiJson;
+  wifiJson["ssid"] = USER_SETTINGS_WIFI_HOSTNAME;
+  wifiJson["hostname"] = USER_SETTINGS_WIFI_HOSTNAME;
+  JsonDocument mqttJson;
+  mqttJson["host"] = USER_SETTINGS_MQTT_HOST;
+  mqttJson["port"] = USER_SETTINGS_MQTT_PORT;
+  mqttJson["device"] = USER_SETTINGS_MQTT_DEVICE;
+  mqttJson["topic"] = USER_SETTINGS_MQTT_TOPIC;
+  mqttJson["username"] = USER_SETTINGS_MQTT_USER;
+  mqttJson["qos"] = USER_SETTINGS_MQTT_QOS;  
+	jsonInfo["name"] = USER_SETTINGS_WIFI_HOSTNAME;
+	jsonInfo["version"] = AUTO_VERSION;
+  jsonInfo["wifi"] = wifiJson;
+  jsonInfo["mqtt"] = mqttJson;
+}
+
 // String generateJsonMessageConfig()
 // {
 // 	String json;
@@ -91,6 +109,7 @@ String generateJsonMessage()
 
 void setup() {
   createJsonConfig();
+  createJsonInfo();
   pinMode(LEDSTATUSPIN, OUTPUT);
 	digitalWrite(LEDSTATUSPIN, LOW);
 
@@ -108,8 +127,6 @@ void setup() {
 	clientMqtt.reconnectMQTT();
 
   //WEB SERVER
-	jsonInfo["name"] = USER_SETTINGS_WIFI_HOSTNAME;
-	jsonInfo["version"] = AUTO_VERSION;
 	server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
 		request->send(200, "application/json", generateJsonMessage());
 	});
