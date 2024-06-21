@@ -55,7 +55,7 @@ void createJsonConfig()
 void createJsonInfo()
 {
   JsonDocument wifiJson;
-  wifiJson["ssid"] = USER_SETTINGS_WIFI_HOSTNAME;
+  wifiJson["ssid"] = USER_SETTINGS_WIFI_SSID;
   wifiJson["hostname"] = USER_SETTINGS_WIFI_HOSTNAME;
   JsonDocument mqttJson;
   mqttJson["host"] = USER_SETTINGS_MQTT_HOST;
