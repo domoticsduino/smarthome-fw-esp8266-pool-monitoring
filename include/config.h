@@ -3,7 +3,7 @@
 #ifndef config_h
 #define config_h
 
-#define AUTO_VERSION "1.0.0"
+#define AUTO_VERSION "1.0.0-1-g231b71c"
 
 // USER SETTINGS
 #include "user-config.h"
@@ -11,7 +11,7 @@
 // GENERAL SETTINGS
 #define LEDSTATUSPIN 2
 #define SERIAL_BAUDRATE 9600
-#define READ_INTERVAL 5000
+#define READ_INTERVAL 60000
 
 // DS18B20 SETTINGS
 #define DS18B20WATERPIN 12 //D6
